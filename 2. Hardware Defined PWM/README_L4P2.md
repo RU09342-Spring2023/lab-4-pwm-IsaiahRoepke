@@ -3,6 +3,8 @@
  
 ## Prerequisites 
 One must have an MSP430FR2533 available for use. 
+One must also have 4 wires and 3 resistors to connect the RGB LED to the MSP430FR2533. A 1.5k ohm resistors are used for the red and green LED.
+A 910 ohm resistor is used for the blue LED. 
  
 ## Modules 
 * Code Composer Studio - 12.2.0  
