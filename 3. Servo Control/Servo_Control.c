@@ -23,8 +23,11 @@ int main(void)
 	__bis_SR_register(GIE);             // Enter LPM0 w/ Interrupts
 	ServoSetup();
 	ButtonSetup();
+	TimerB3Setup();
 	
+	while(1){
 
+	}
 	return 0;
 }
 
@@ -56,7 +59,7 @@ void ButtonSetup(){
 void TimerB3Setup(){
 
     TB3CCTL0 = CCIE;
-    TB3CCR0 = 1000-1;                         // PWM Period
+    TB3CCR0 = 5000-1;                         // PWM Period
     TB3CCTL1 = OUTMOD_7;                      // CCR1 reset/set
     TB3CCR1 = 500;                            // CCR1 PWM duty cycle
 
@@ -80,11 +83,12 @@ void __attribute__ ((interrupt(TIMER3_B0_VECTOR))) Timer3_B0_ISR (void)
 __interrupt void Port_2(void){
 
     P2IFG &= ~BIT3;
-    if(TB0CCR1 >= 1000){
-        break;
+    if(TB3CCR1 >= 5000){
+    TB3CCR1 = 51;
     }
     else {
-        TB0CCR1 += 1;
+        TB3CCR1 += 1;
+        __delay_cycles(400);
     }
 }
 
@@ -92,10 +96,11 @@ __interrupt void Port_2(void){
 __interrupt void Port_4(void){
     P4IFG &= ~BIT1;
         if(TB1CCR1 <= 50){
-         break;
+         TB3CCR1 = 4999;
         }
         else {
-            TB1CCR1 -= 1;
+            TB3CCR1 -= 1;
+            __delay_cycles(400);
         }
 
 }
